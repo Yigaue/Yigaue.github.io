@@ -12,22 +12,15 @@
             <h1>The Shoppies </h1>
         </header>
         <nav>
-            <h2>Movie tile</h2>
-            <input type="search" name="search" id="search" placeholder="Search movies">
+            <h2>Movie title</h2>
+            <form id="form-submit">
+                <input type="text" id="search" placeholder="Search movies">
+                <input type="submit" id="submit-button" value="Search">
+            </form>
         </nav>
         <section class="search-result">
-            <h2>Result for ram</h2>
-            <ul>
-                <li>
-                    Rambo (1999) <button disabled>Nominate</button>
-                </li>
-                <li>
-                    Hey Ram (2000) <button>Nominate</button>
-                </li>
-                <li>
-                    Ram Dass Going Home (2007) <button>Nominate</button>
-                </li>
-            </ul>
+            <h2 id= "result-heading">Results for </h2>
+            <ul id="movie-list"></ul>
         </section>
 
         <section class="nomination">
