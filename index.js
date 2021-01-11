@@ -1,42 +1,49 @@
-var movieList = document.getElementById('movie-list')
-var resultHeading = document.getElementById('result-heading')
-var formSubmit = document.getElementById('form-submit')
-const apiKey = config.OMDBAPIKey
+var movieList = document.getElementById('movie-list');
+var resultsection = document.querySelector('.search-result');
+var nominationSection = document.querySelector('.nomination');
+var nominationList = document.getElementById('nomination-list')
+var resultHeading = document.getElementById('result-heading');
+var formSubmit = document.getElementById('form-submit');
+var moviesCollection = document.getElementsByClassName('movie'); 
 
-formSubmit.addEventListener('submit', submitSearch)
-resultHeading.style.visibility = 'hidden'
+const apiKey = config.OMDBAPIKey;
+
+formSubmit.addEventListener('submit', submitSearch);
+resultsection.style.visibility = 'hidden';
+nominationSection.style.visibility = 'hidden'
 
 function submitSearch(e) {
-    e.preventDefault()
-    let search =  e.target.firstElementChild.value
+    e.preventDefault();
+    let search =  e.target.firstElementChild.value;
     if(search) {
-        resetInput(search)
-        console.log(e.target.firstElementChild.value)
-        resultHeading.style.visibility = 'visible'
+        resetInput(search);
+        resultsection.style.visibility = 'visible';
         apiEndpoint(search);
     } 
 }
 
 function apiEndpoint(search) {
-    resultHeading.innerHTML = `Result for ${search}`
+    resultHeading.innerHTML = `Search results for ${search}`
     var url = `http://www.omdbapi.com/?s=${search}&apikey=${apiKey}`
 
     fetch(url)
         .then((response) => {
-            return response.json()
+            return response.json();
         })
         .then((data) => {
             if(Array.isArray(data.Search)) {
                 data.Search.forEach((movie) => {
-                    console.log(movie)
+                    // if(movie.imdbID)
+                    // console.log(movie)
                     let li =  document.createElement('li')
                     li.setAttribute('class', 'movie')
                     let buttn = document.createElement('button')
                     buttn.setAttribute('class', 'nominate-button')
-                    buttn.innerText = "Nominate"
+                    buttn.textContent = "Nominate"
                     li.textContent = `${movie.Title} (${movie.Year}) `
                     movieList.appendChild(li)
                     li.appendChild(buttn)
+                    li.addEventListener('click', nominate)
                 })
             }
         })
@@ -47,13 +54,34 @@ function apiEndpoint(search) {
 }
 
 function resetInput(search) {
-    let x = document.getElementsByClassName('movie'); 
-      
-    for (i = 0; i < x.length; i++) {  
-        if (!x[i].innerHTML.includes(search)) { 
-            x[i].style.display="none"; 
+    movies =  [...moviesCollection]; 
+    movies.forEach((movie) => {
+        if (!movie.innerHTML.includes(search)) { 
+            movie.style.display="none"; 
         } 
-    } 
+    });
+}   
+
+function nominate(e) {
+    if(e.target.classList.contains('nominate-button')) {
+        nominationSection.style.visibility = 'visible';
+        let li = document.createElement('li')
+        let buttn = document.createElement('button')
+        li.setAttribute('class', 'nominated-movie')
+        buttn.className = 'remove-nomination delete'
+        li.textContent = e.target.parentElement.childNodes[0].nodeValue;
+        buttn.textContent = 'remove'
+        nominationList.appendChild(li)
+        li.appendChild(buttn)
+        buttn.addEventListener('click', removeNomination)
+    }
+}
+
+function removeNomination(e) {
+    if(e.target.classList.contains('delete')) {
+        var li = e.target.parentElement;
+        nominationList.removeChild(li)
+    }
 }
 
 
