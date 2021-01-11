@@ -50,3 +50,12 @@ li {
     margin-left: 10px
 }
 
+#submit-button {
+    background-color: rgba(37, 95, 255, 0.945);
+    color: rgb(255, 255, 255);
+    width: 70px;
+    height: 35px;
+    border-style: none;
+    border-radius: 5px;
+}
+
