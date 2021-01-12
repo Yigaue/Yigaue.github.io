@@ -41,15 +41,20 @@ function apiEndpoint(search) {
                     let p =  document.createElement('p');
                     let div = document.createElement('div');
                     let buttn = document.createElement('button');
-                    let img = document.createElement('img')
+                    let img = document.createElement('img');
                     Object.assign(p, {
                         className: 'movie',
-                        id: movie.imdbID
+                        id: movie.imdbID,
+                    });
+
+                    Object.assign(img, {
+                        className: 'img',
+                        src: movie.Poster,
+                        alt: movie.Title
                     });
                 
                     console.log(movie)
-                
-                    img.setAttribute('src', movie.Poster);
+
                     div.className = 'movie-block'
                     buttn.setAttribute('class', 'nominate-button');
                     buttn.textContent = "Nominate";
@@ -90,7 +95,8 @@ function nominate(e) {
 
         Object.assign(li, {
             className: 'nominated-movie',
-            id: e.target.parentElement.getAttribute('id')
+            id: e.target.parentElement.getAttribute('id'),
+            style :`background-image:url(${e.target.parentElement.previousSibling.getAttribute("src")})`
         });
 
         buttn.className = 'remove-nomination delete';
