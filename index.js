@@ -1,13 +1,17 @@
-var movieList = document.getElementById('movie-list');
-var resultsection = document.querySelector('.search-result');
-var nominationSection = document.querySelector('.nomination');
-var nominationList = document.getElementById('nomination-list')
-var resultHeading = document.getElementById('result-heading');
-var formSubmit = document.getElementById('form-submit');
-var moviesCollection = document.getElementsByClassName('movie');
-var nominationAlert = document.getElementById('nomination-alert');
-
 const apiKey = config.OMDBAPIKey;
+var { formSubmit, resultsection, nominationSection, resultHeading, movieList, moviesCollection, nominationList, nominationAlert } = variableDeclaration();
+
+function variableDeclaration() {
+    movieList = document.getElementById('movie-list');
+    resultsection = document.querySelector('.search-result');
+    nominationSection = document.querySelector('.nomination');
+    nominationList = document.getElementById('nomination-list');
+    resultHeading = document.getElementById('result-heading');
+    formSubmit = document.getElementById('form-submit');
+    moviesCollection = document.getElementsByClassName('movie');
+    nominationAlert = document.getElementById('nomination-alert');
+    return { formSubmit, resultsection, nominationSection, resultHeading, movieList, moviesCollection, nominationList, nominationAlert };
+}
 
 formSubmit.addEventListener('submit', submitSearch);
 resultsection.style.visibility = 'hidden';
@@ -35,8 +39,6 @@ function apiEndpoint(search) {
             if(Array.isArray(data.Search)) {
                 data.Search.forEach((movie) => {
                     let li =  document.createElement('li')
-                    li.setAttribute('class', 'movie')
-                    // console.log(movie.imdbID)
                     Object.assign(li, {
                         className: 'movie',
                         id: movie.imdbID
@@ -71,12 +73,11 @@ const MAX_NOMINATION = 5;
 var countNomination = 0;
 
 function nominate(e) {
-    countNominationcountNomination + 1;
-    if(e.target.classList.contains('nominate-button') && countNomination <= MAX_NOMINATION) {
+    if(e.target.classList.contains('nominate-button') && countNomination < MAX_NOMINATION) {
+        countNomination = countNomination + 1;
         nominationSection.style.visibility = 'visible';
         let li = document.createElement('li');
         let buttn = document.createElement('button');
-        li.setAttribute('class', 'nominated-movie');
 
         Object.assign(li, {
             className: 'nominated-movie',
@@ -98,7 +99,6 @@ function removeNomination(e) {
     if(e.target.classList.contains('delete')) {
         var li = e.target.parentElement;
         nominationList.removeChild(li)
-        countNomination = countNomination - 1;
         nominationAlert.textContent = ' '
         let movies = [...moviesCollection];
         movies.forEach((movie) => {
@@ -107,12 +107,13 @@ function removeNomination(e) {
                 movie.childNodes[1].disabled = false;
             }
         })
+        countNomination = countNomination - 1;
     }
 }
 
 function maxNomination() {
     console.log(countNomination)
-    if(countNomination == MAX_NOMINATION) {
-        nominationAlert.textContent = "Awww, You have reach maximum nomination!";
+    if(countNomination === MAX_NOMINATION) {
+        nominationAlert.textContent = `Awww, You have reach maximum nomination of ${MAX_NOMINATION} !`;
     }
 }
