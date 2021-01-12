@@ -59,3 +59,7 @@ li {
     border-radius: 5px;
 }
 
+#nomination-alert {
+    color: rgb(129, 12, 12);
+}
+
