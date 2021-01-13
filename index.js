@@ -1,5 +1,5 @@
 const apiKey = config.OMDBAPIKey;
-var { formSubmit, resultsection, nominationSection, searchTerm, movieList, moviesCollection, nominationList, nominationAlert } = variableDeclaration();
+var { formSubmit, resultsection, nominationSection, searchTerm, movieList, moviesCollection, nominationList, nominationAlert, shearableLink } = variableDeclaration();
 
 function variableDeclaration() {
     movieList = document.getElementById('movie-list');
@@ -10,7 +10,8 @@ function variableDeclaration() {
     formSubmit = document.getElementById('form-submit');
     moviesCollection = document.getElementsByClassName('movie-block');
     nominationAlert = document.getElementById('nomination-alert');
-    return { formSubmit, resultsection, nominationSection, searchTerm, movieList, moviesCollection, nominationList, nominationAlert };
+    shearableLink = document.getElementById('shareable-link');
+    return { formSubmit, resultsection, nominationSection, searchTerm, movieList, moviesCollection, nominationList, nominationAlert, shearableLink };
 }
 
 formSubmit.addEventListener('submit', submitSearch);
@@ -74,10 +75,10 @@ function resetInput(search) {
 
 const MAX_NOMINATION = 5;
 var countNomination = 0;
-
 function nominate(e) {
     if(e.target.classList.contains('nominate-button') && countNomination < MAX_NOMINATION) {
         nominationAlert.textContent = '';
+        nominationAlert.className = ''
         countNomination = countNomination + 1;
         nominationSection.style.visibility = 'visible';
         let li = document.createElement('li');
@@ -96,7 +97,7 @@ function nominate(e) {
         buttn.addEventListener('click', removeNomination);
         e.target.disabled = true;
         e.target.style.backgroundColor = 'rgb(212, 211, 211)';
-        maxNomination();
+        maxNomination();   
     }
 }
 
@@ -105,6 +106,7 @@ function removeNomination(e) {
         var li = e.target.parentElement;
         nominationList.removeChild(li)
         nominationAlert.textContent = '';
+        nominationAlert.className = ''
         let movies = [...moviesCollection];
 
         movies.forEach((movie) => {
@@ -123,6 +125,18 @@ function removeNomination(e) {
 
 function maxNomination() {
     if(countNomination === MAX_NOMINATION) {
-        nominationAlert.textContent = `Awww, You have reach maximum nomination of ${MAX_NOMINATION} !`;
+        nominationAlert.textContent = `Awww, You have reach the maximum nomination of ${MAX_NOMINATION} !`;
+        nominationAlert.className = 'nomination-alert'
     }
 }
+
+var urlAddress = window.location.href;
+   
+let copyShareableLink = () => {
+    console.log(shearableLink)
+    shearableLink.innerHTML = `<button class="copy"> &raquo; </button> <input class="copy-input" value="${urlAddress}">`
+    document.querySelector('.copy-input').select();
+    document.execCommand('copy')
+}
+
+shearableLink.addEventListener('click', copyShareableLink)

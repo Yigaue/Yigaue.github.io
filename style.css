@@ -39,7 +39,7 @@ nav {
     color: rgb(255, 255, 255);
     grid-row: 3;
     grid-column: 4/6;
-    height: 40%;
+    height: 500px;
 }
 
 .nomination h2, p{
@@ -67,8 +67,11 @@ li {
     border-radius: 5px;
 }
 
-#nomination-alert {
-    color: rgb(233, 192, 192);
+.nomination-alert {
+    color: rgb(3, 0, 0);
+    background-color: rgb(199, 184, 47);
+    width: 80%;
+    margin: auto;
 }
 
 .delete {
@@ -146,4 +149,74 @@ p {
 @keyframes spin {
     0% { transform: rotate(0deg); }
     100% { transform: rotate(360deg); }
+  }
+
+  #shareable-link {
+      display: inline;
+      position: relative;
+      top: 0px;
+      right: 0px;
+  }
+
+  #shareable-link button.copybttn{
+      color: rgb(235, 233, 233);
+      background-color: rgb(17, 17, 17);
+      position: relative;
+      left: 20%;
+      border: .5px solid rgb(141, 138, 138);
+      border-radius: 5px;
+      padding: 5px;
+      cursor: pointer;
+      transition-duration: 0.4s;
+      box-shadow: 0 .5px rgb(136, 134, 134);
+  }
+
+  .copy{
+    color: rgb(235, 233, 233);
+    background-color: rgb(102, 99, 99);
+    position: relative;
+    left: 18.5%;
+    border: .5px solid rgb(141, 138, 138);
+    border-radius: 10px 0 0px 10px;
+    width: 50px;
+    padding: 5px;
+    cursor: pointer;
+    transition-duration: 0.4s;
+    box-shadow: 0 .5px rgb(136, 134, 134);
+    /* display: none; */
+    content: 'love';
+}
+
+.copy-input {
+    height: 25px;
+    border-radius: 0 12px 12px 0;
+    width: 200px;
+    position: relative;
+    border: none;
+    left: 18%;
+}
+
+
+#shareable-link:hover button.copybttn{
+    background-color:rgb(235, 233, 233);
+    color: rgb(17, 17, 17);
+  }
+
+#shareable-link:active button.copybttn{
+    background-color: #3a3f3a;
+    box-shadow: 0 5px #666;
+    transform: translateY(4px);
+  }
+
+  @media (max-width: 819px) {
+    .copy {
+      display: none;
+    }
+    .copy-input {
+        right: 30px;
+        top: 10%;
+        position: absolute;
+        margin: 0 30px;
+        width: 140px;
+    }
   }
