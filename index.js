@@ -30,40 +30,30 @@ function submitSearch(e) {
 function apiEndpoint(search) {
     searchTerm.textContent = search;
     var url = `http://www.omdbapi.com/?s=${search}&apikey=${apiKey}`;
-
+    let loader = `<div class="loader"></div>`;
+    movieList.innerHTML = loader;
     fetch(url)
         .then((response) => {
             return response.json();
         })
         .then((data) => {
+            let showmovie = ``;
             if(Array.isArray(data.Search)) {
                 data.Search.forEach((movie) => {
-                    let p =  document.createElement('p');
-                    let div = document.createElement('div');
-                    let buttn = document.createElement('button');
-                    let img = document.createElement('img');
-                    Object.assign(p, {
-                        className: 'movie',
-                        id: movie.imdbID,
-                    });
-
-                    Object.assign(img, {
-                        className: 'img',
-                        src: movie.Poster,
-                        alt: movie.Title
-                    });
-                
-                    console.log(movie)
-
-                    div.className = 'movie-block'
-                    buttn.setAttribute('class', 'nominate-button');
-                    buttn.textContent = "Nominate";
-                    p.textContent = `${movie.Title} (${movie.Year})`;
-                    movieList.appendChild(div);
-                    p.appendChild(buttn);
-                    div.appendChild(img)
-                    div.appendChild(p);
-                    p.addEventListener('click', nominate);
+                showmovie +=
+                   `<div class = "movie-block">
+                       <img src = "${movie.Poster}">
+                          <p class ="movie" id="${movie.imdbID}">
+                          ${movie.Title} ${movie.Year}
+                            <button class="nominate-button">Nominate</button>  
+                          </p> 
+                       </img>
+                   </div>`
+                   movieList.innerHTML = showmovie;
+                   let buttns = [...document.getElementsByClassName('nominate-button')];
+                   buttns.forEach((buttn) => {
+                    buttn.addEventListener('click', nominate)
+                   });
                 })
             }
         })
@@ -92,11 +82,10 @@ function nominate(e) {
         nominationSection.style.visibility = 'visible';
         let li = document.createElement('li');
         let buttn = document.createElement('button');
-
         Object.assign(li, {
             className: 'nominated-movie',
             id: e.target.parentElement.getAttribute('id'),
-            style :`background-image:url(${e.target.parentElement.previousSibling.getAttribute("src")})`
+            style :`background-image:url(${e.target.parentElement.previousElementSibling.getAttribute("src")})`
         });
 
         buttn.className = 'remove-nomination delete';
@@ -119,9 +108,9 @@ function removeNomination(e) {
         let movies = [...moviesCollection];
 
         movies.forEach((movie) => {
-            if(e.target.parentElement.getAttribute('id') == movie.getAttribute('id')){
-                movie.childNodes[1].disabled = false;
-                movie.childNodes[1].style.backgroundColor = 'rgb(35, 95, 35)';
+            if(e.target.parentElement.getAttribute('id') == movie.children[1].getAttribute('id')){
+                movie.children[1].firstElementChild.disabled = false;
+                movie.children[1].firstElementChild.style.backgroundColor = 'rgb(35, 95, 35)';
             }
         });
 
@@ -133,7 +122,6 @@ function removeNomination(e) {
 }
 
 function maxNomination() {
-    console.log(countNomination)
     if(countNomination === MAX_NOMINATION) {
         nominationAlert.textContent = `Awww, You have reach maximum nomination of ${MAX_NOMINATION} !`;
     }
