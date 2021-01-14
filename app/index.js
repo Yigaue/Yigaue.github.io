@@ -38,10 +38,10 @@ function apiEndpoint(search) {
             return response.json();
         })
         .then((data) => {
-            let showmovie = ``;
+            let showMovie = ``;
             if(Array.isArray(data.Search)) {
                 data.Search.forEach((movie) => {
-                showmovie +=
+                showMovie +=
                    `<div class = "movie-block">
                        <img src = "${movie.Poster}">
                           <p class ="movie" id="${movie.imdbID}">
@@ -50,7 +50,7 @@ function apiEndpoint(search) {
                           </p> 
                        </img>
                    </div>`
-                   movieList.innerHTML = showmovie;
+                   movieList.innerHTML = showMovie;
                    let buttns = [...document.getElementsByClassName('nominate-button')];
                    buttns.forEach((buttn) => {
                     buttn.addEventListener('click', nominate)
