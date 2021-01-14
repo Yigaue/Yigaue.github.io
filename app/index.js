@@ -34,34 +34,41 @@ function apiEndpoint(search) {
     let loader = `<div class="loader"></div>`;
     movieList.innerHTML = loader;
     fetch(url)
-        .then((response) => {
-            return response.json();
-        })
-        .then((data) => {
-            let showMovie = ``;
-            if(Array.isArray(data.Search)) {
-                data.Search.forEach((movie) => {
-                showMovie +=
-                   `<div class = "movie-block">
-                       <img src = "${movie.Poster}">
-                          <p class ="movie" id="${movie.imdbID}">
-                          ${movie.Title} ${movie.Year}
-                            <button class="nominate-button">Nominate</button>  
-                          </p> 
-                       </img>
-                   </div>`
-                   movieList.innerHTML = showMovie;
-                   let buttns = [...document.getElementsByClassName('nominate-button')];
-                   buttns.forEach((buttn) => {
-                    buttn.addEventListener('click', nominate)
-                   });
-                })
-            }
-        })
+        .then(handleResponse)
+        .then(displayMovies)
         .catch((error) => {
             console.log(error);
     }   )
+}
 
+function displayMovies(data) {
+    let showMovie = ``;
+    if(Array.isArray(data.Search)) {
+        data.Search.forEach((movie) => {
+        showMovie +=
+            `<div class = "movie-block">
+                <img src = "${movie.Poster}">
+                    <p class ="movie" id="${movie.imdbID}">
+                    ${movie.Title} ${movie.Year}
+                    <button class="nominate-button">Nominate</button>  
+                    </p> 
+                </img>
+            </div>`
+            movieList.innerHTML = showMovie;
+            let buttns = [...document.getElementsByClassName('nominate-button')];
+            buttns.forEach((buttn) => {
+            buttn.addEventListener('click', nominate)
+            });
+        })
+    }    
+}
+
+function handleResponse(response) {
+    if (response.status >= 200 && response.status < 300) {
+        return response.json();
+    } else {
+        throw Error(response.statusText);
+    }
 }
 
 function resetInput(search) {
@@ -132,11 +139,11 @@ function maxNomination() {
 
 var urlAddress = window.location.href;
    
-let copyShareableLink = () => {
+let shareableLink = () => {
     console.log(shearableLink)
     shearableLink.innerHTML = `<button class="copy"> &raquo; </button> <input class="copy-input" value="${urlAddress}">`
     document.querySelector('.copy-input').select();
     document.execCommand('copy')
 }
 
-shearableLink.addEventListener('click', copyShareableLink)
+shearableLink.addEventListener('click', shareableLink)
