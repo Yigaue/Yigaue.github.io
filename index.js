@@ -30,7 +30,7 @@ function submitSearch(e) {
 
 function apiEndpoint(search) {
     searchTerm.textContent = search;
-    var url = `http://www.omdbapi.com/?s=${search}&apikey=${apiKey}`;
+    var url = `https://www.omdbapi.com/?s=${search}&apikey=${apiKey}`;
     let loader = `<div class="loader"></div>`;
     movieList.innerHTML = loader;
     fetch(url)
