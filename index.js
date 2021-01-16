@@ -5,7 +5,7 @@ function variableDeclaration() {
     movieList = document.getElementById('movie-list');
     resultsection = document.querySelector('.search-result');
     nominationSection = document.querySelector('.nomination');
-    searchTerm = document.getElementById('search-term')
+    searchTerm = document.getElementById('search-header')
     nominationList = document.getElementById('nomination-list');
     formSubmit = document.getElementById('form-submit');
     moviesCollection = document.getElementsByClassName('movie-block');
@@ -17,10 +17,10 @@ function variableDeclaration() {
 formSubmit.addEventListener('submit', submitSearch);
 resultsection.style.visibility = 'hidden';
 nominationSection.style.visibility = 'hidden';
-
+var search
 function submitSearch(e) {
     e.preventDefault();
-    let search =  e.target.firstElementChild.value;
+    search =  e.target.firstElementChild.value;
     if(search) {
         resetInput(search);
         resultsection.style.visibility = 'visible';
@@ -29,7 +29,6 @@ function submitSearch(e) {
 }
 
 function apiEndpoint(search) {
-    searchTerm.textContent = search;
     var url = `https://www.omdbapi.com/?s=${search}&apikey=${apiKey}`;
     let loader = `<div class="loader"></div>`;
     movieList.innerHTML = loader;
@@ -42,6 +41,7 @@ function apiEndpoint(search) {
 }
 
 function displayMovies(data) {
+    searchTerm.innerHTML = `<p id="result-heading"><span class="search-term">${data.Search.length}</span> search results for <span class="search-term">${search}</span></p>`;
     let showMovie = ``;
     if(Array.isArray(data.Search)) {
         data.Search.forEach((movie) => {

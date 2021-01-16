@@ -91,7 +91,7 @@ h2 {
     font-size: 19px;
 }
 
-#search-term {
+.search-term {
     color:rgb(197, 197, 197);
 }
 
@@ -219,4 +219,8 @@ p {
         margin: 0 30px;
         width: 140px;
     }
+  }
+
+  #result-heading {
+    font-size: 20px;
   }
