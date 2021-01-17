@@ -22,7 +22,7 @@ nav {
     width: 40%;
     padding: 10px;
     margin: 10px 0;
-    border-radius: 5px;
+    border-radius: 5px 0 0px 5px;
     border-color: gb(85, 84, 84);
     border: none;
 }
@@ -64,7 +64,8 @@ li {
     width: 70px;
     height: 35px;
     border-style: none;
-    border-radius: 5px;
+    border-radius: 0 5px 5px 0px;
+    margin-left: -5px;
 }
 
 .nomination-alert {
